@@ -1,19 +1,27 @@
 # sapdotnetconnector
 use sapnrrc and sapdotnetconnector 、.net5.0、.net framwork4 to connect sap function.
+
 1.1．	net5
+
 1.2．	安装SapNwRfc
+
 dotnet add package SapNwRfc  or
 PM> Install-Package SapNwRfc
+
 1.3将saplib文件夹下的文件拷贝到项目bin文件夹下
+
 1.4连接到SAP服务器
 	string connectionString = "AppServerHost=MY_SERVER_HOST; SystemNumber=00; User=MY_SAP_USER; Password=SECRET; Client=100; Language=EN; PoolSize=5; Trace=8";
 
 using var connection = new SapConnection(connectionString);
 connection.Connect();
+
 1.5建立Sap 接口连接，参数为接口名
+
 using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
 1.6调取接口并返回数据
-	//具有输入参数但没有输出参数的呼叫功能
+
+  //具有输入参数但没有输出参数的呼叫功能
   var result = someFunction.Invoke<SomeFunctionResult>(new SomeFunctionParameters
   {
       Budat = "2021-07-18",
@@ -22,6 +30,7 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
       Matnr = "60001297",
       //Lgort = ""
   });
+	
 1.7接口相关对象
 	class SomeFunctionParameters
   {
@@ -42,12 +51,17 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
       [SapName("ITM_NAME")]
       public string Name { get; set; }
   }
+	
 2.0 .net framework 4.0
+	
 2.1 安装SAPDotNetConnector3
-	dotnet add package SAPDotNetConnector3	or
+	
+  dotnet add package SAPDotNetConnector3	or
   PM> Install-Package SAPDotNetConnector3
+	
 2.2 连接对象
-	public abstract class Common
+	
+  public abstract class Common
   {
       /// <summary>
       /// 获取SAP配置信息
@@ -67,8 +81,10 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
           return sapInfo;
       }
   }
-2.3连接参数
-	public class SAPConfiguration : IDestinationConfiguration
+	
+2.3连接参数	
+	
+  public class SAPConfiguration : IDestinationConfiguration
   {
       public bool ChangeEventsSupported()
       {
@@ -121,8 +137,10 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
       public string SYSNR { get; set; }
       public string LANG { get; set; }
   }
+	
 2.5创建连接
-	public class SAPServerHelper : IDisposable
+	
+  public class SAPServerHelper : IDisposable
   {
       private RfcDestination prd;//SAP Rfc定义声明对象
 
@@ -308,8 +326,10 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
       }
       #endregion
   }
+  
 2.7与SAP交互
-	static void Main(string[] args)
+
+  static void Main(string[] args)
   {
       Dictionary<string, string> keyValues = new Dictionary<string, string>();
       keyValues.Add("IM_BUDAT","2021-07-18");
@@ -324,8 +344,10 @@ using var someFunction = connection.CreateFunction("BAPI_SOME_FUNCTION_NAME");
       Console.WriteLine("Press any key outer.");
       Console.ReadKey();
   }
+	
 2.8 App.config配置项
-	<appSettings>
+	
+   <appSettings>
     <!--Sap 服务器参数-->
     <add key="NAME" value="Aiko"/>
     <add key="ASHOST" value="172.16.101.207"/>
